@@ -1,0 +1,29 @@
+Question 2
+Donnez la requête SQL de création de la table « Spectacle »
+
+create table Spectacle (
+Spectacle_id smallint primary key ,
+Fam_nom varchar(20),
+Spectacle_nom varchar(50),
+Spectacle_auteur varchar(50),
+Spectacle_description varchar(255),
+constraint  FK_CLASSER foreign key (Fam_nom) references Famille_spectacle (Fam_nom)
+
+
+)
+
+Question 3
+Donnez le code SQL de la contrainte d’intégrité référentielle « FK_CLASSER », quel en est l’intérêt ?
+
+alter table Spectacle add constraint FK_CLASSER foreign key (Fam_nom) references Famille_spectacle (Fam_nom) 
+
+
+l’intérêt est de  protèger le contenu et les relations  d’une base de données Pour que les données restent cohérentes
+
+Garantir  que chaque Spectacle correspond bien à une famille de spectacle existante dans la table famille_spectacle
+
+
+Question 4
+Quel est l’objectif de cette base de données ?
+
+Gérer les données   des représentation de spectacles classés par famille de spectacles

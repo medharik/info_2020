@@ -1,5 +1,4 @@
-
-Question 1
+﻿Question 1
 Donnez le contenu du fichier de configuration/etc/hadoop/mapred-site.xml permettant
 d’utiliser Yarn comme implémentation MapReduce.
 
@@ -18,7 +17,7 @@ préciser les propriétés d’utilisation du Yarn.
 
 <configuration>
     <property>
-        <name>yarn.nodemanager.</name>
+        <name>yarn.nodemanager.test</name>
         <value>mapreduce_shuffle</value>
     </property>
 </configuration>
