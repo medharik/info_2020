@@ -1,0 +1,94 @@
+﻿
+Dossier 1 : 
+Q1-
+Methode 1 :
+select Immeuble.Nom , Immeuble.Adresse,Proprietaire.Nom, Proprietaire.Adresse ,
+Appartement.Num_App
+from Immeuble join Appartement on Immeuble.Num_Imm=Appartement.Num_Imm 
+join Proprietaire.Num_Pro=Appartement.Num_Pro
+where Immeuble.Nb_Etages >= 5 and to_char(Immeuble.Date_Construction,'YYYY' )>=1987
+
+Q2-
+Donnez le script SQL permettant de retourner le nombre de locataires qui habitent un
+appartement dont ils sont propriétaires.
+
+
+
+select count(*) from Proprietaire join Appartement on Proprietaire.Num_Pro=Appartement.Num_Pro
+join Locataire on Locataire.Num_App=Appartement.Num_App
+and Proprietaire.nom= Locataire.nom and Proprietaire.adresse=Appartement.adresse
+and Locataire.Date_D is null
+
+
+Q3-
+Donnez le script SQL permettant de retourner les noms et adresses des locataires qui ne sont
+pas propriétaires des appartements qu’ils occupent.
+
+
+select nom , adresse from Proprietaire
+ join Appartement on Proprietaire.Num_Pro=Appartement.Num_Pro
+join Locataire on Locataire.Num_App=Appartement.Num_App
+and Locataire.nom <> Proprietaire.nom 
+
+Q4-
+Donnez le script SQL permettant de retourner le nom et l’adresse des immeubles où il y a des
+appartements vides.
+select Immeuble.nom , Immeuble.adresse from Immeuble join Appartement on Immeuble.Num_Imm=App.Num_Imm
+join Locataire on Locataire.Num_App=Appartement.Num_App and Locataire.Date_D is not null
+
+
+Question 5
+Donnez le script de la procédure PL/SQL permettant d’ajouter un nouveau locataire après avoir
+vérifié que :
+- l’appartement existe,
+- la date d’arrivée du nouveau locataire est supérieure ou égale à la date de son ajout dans
+la base de données,
+- la date d’arrivée du nouveau locataire est supérieure à la date de départ de l’ancien
+locataire la date,
+les paramètres de la procédure sont : le numéro du locataire, son nom, son adresse, sa
+date d’arrivée, sa date de départ, son âge, sa profession et le numéro de son futur
+appartement.
+
+
+create or replace procedure ajout_nouveau_locataire(
+    p_num_Loc in Locataire.Num_Loc%type,
+    p_nom_loc in Locataire.Nom%type,
+    p_nom_adresse in Locataire.Adresse%type,
+    p_date_a in Locataire.Date_A%type,
+    p_date_d in Locataire.Date_D%type,
+    p_age in Locataire.Age%type,
+    p_profession in Locataire.profession%type,
+	p_num_app in Appartement.Num_app%type,
+) is
+ v_existe number ;
+v_num_app Appartement.Num_App%type;
+v_ancien_locataire  Locataire%rowtype;
+
+begin
+  -- On Verifie si l'appartement existe 
+select count(*) into v_existe   from Appartement where Num_App = v_num_app;
+-- si l'apparetement  existe , donc on recupere son locataire 
+	if v_existe <> 0 then 
+		select * into v_ancien_locataire from locataire where Num_App = p_num_app;
+		-- on verifie , site la date_a est valide 
+		if p_date_a >= sysdate and  p_date_a >= v_ancien_locataire.Date_d
+		-- on ajoute le locataire 
+		  insert into Locataire  (Num_Loc, Nom, adresse, Date_A, Date_D, Age, Profession, Num_App)
+		  values(p_num_Loc,p_nom_loc,p_nom_adresse,p_date_a,p_date_d,p_age,p_profession,p_num_app)
+		else 
+		      DBMS_OUTPUT.PUT_LINE(' Erreur d ajout du locataire ' );
+	end if;
+
+
+else 
+		      DBMS_OUTPUT.PUT_LINE(' Appartement numéro ' || p_num_app ||' n existe pas  ' );
+end if ;
+
+exception 
+when others then 
+      DBMS_OUTPUT.PUT_LINE(' Erreur ' );
+
+end;
+
+
+

@@ -1,0 +1,55 @@
+
+Question 1
+Donnez le contenu du fichier de configuration/etc/hadoop/mapred-site.xml permettant
+d’utiliser Yarn comme implémentation MapReduce.
+
+<configuration>
+  <property>
+    <name>mapreduce.framework.name</name>
+    <value>yarn</value>
+  </property>
+</configuration>
+
+
+Question 2
+Donnez le contenu du fichier de configuration /etc/hadoop/yarn-site.xml permettant de
+préciser les propriétés d’utilisation du Yarn.
+
+
+<configuration>
+    <property>
+        <name>yarn.nodemanager.</name>
+        <value>mapreduce_shuffle</value>
+    </property>
+</configuration>
+
+
+
+Question 3
+Quelle est la commande permettant de lancer le cluster Yarn et le cluster HDFS ?
+
+ hdfs namenode -format
+ start-dfs.sh
+ start-yarn.sh
+
+Question 4
+Quelle est la commande qui permet de créer le répertoire /dblp dans HDFS ?
+
+ hadoop fs -mkdir /dblp
+
+Quelle est la commande qui permet de copier le fichier produit.txt du système de fichiers local
+vers HDFS ?
+
+hadoop fs -cp /home/produit.txt  /home/dblp
+ou
+ 
+hadoop fs -copyFromLocal /home/produit.txt  /home/dblp
+
+
+Question 6
+Quel est le résultat de la fonction map ?
+le résultat de la fonction map est de créer une liste de couples sous la forme  :  
+(nom,1)
+(origine,1)
+(prix,1)
+
