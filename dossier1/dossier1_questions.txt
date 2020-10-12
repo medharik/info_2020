@@ -1,7 +1,7 @@
 ﻿
 Dossier 1 : 
 Q1-
-Methode 1 :
+
 select Immeuble.Nom , Immeuble.Adresse,Proprietaire.Nom, Proprietaire.Adresse ,
 Appartement.Num_App
 from Immeuble join Appartement on Immeuble.Num_Imm=Appartement.Num_Imm 
